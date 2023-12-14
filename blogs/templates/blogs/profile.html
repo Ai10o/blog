@@ -1,0 +1,25 @@
+{% extends 'blogs/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>User profile: {{ user.username }}</h1>
+    <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit profile</a>
+
+    <h2>Your publications</h2>
+    {% for post in user.blogpost_set.all %}
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="card-title">{{ post.title }}</h3>
+                <p class="card-text">{{ post.text|linebreaksbr }}</p>
+                <a href="{% url 'edit_post' post.id %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'delete_post' post.id %}" class="btn btn-danger">Delete</a>
+            </div>
+            <div class="card-footer text-muted">
+                Posted on {{ post.date_added|date:"N d, Y" }}
+            </div>
+        </div>
+    {% empty %}
+        <p>You don't have any publications yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
